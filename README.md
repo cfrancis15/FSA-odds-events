@@ -11,12 +11,9 @@ For this workshop, you'll be starting from scratch! You are highly encouraged to
 //done
 - `index.html` is not modified. All elements are generated via JS.
 - The application contains a form that allows users to input a number.
-
-
-
-
 - When the user clicks the "Add number" button, the number they entered into the input field should be added to the number bank.
 - The number bank should display all of the numbers that the user has entered.
+
 - When the "Sort 1" button is clicked, the first number in the number bank is removed and placed into either the odd or even category.
 - When the "Sort All" button is clicked, all numbers in the number bank are moved into either the odd or even category.
 - Numbers are moved into the correct category based on whether they are odd or even.

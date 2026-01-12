@@ -1,5 +1,8 @@
 
-let numberBank = []
+let numberBank = [];
+
+let evens = [];
+let odds = [];
 
 function addToBank(n){
     numberBank.push(n)
@@ -8,52 +11,79 @@ function addToBank(n){
     
 }
 
+function sortOne(){
+  let n = numberBank.shift()
+  if(n===undefined)return;
+  if(n % 2 === 0 ){
+    evens.push(n)
+  }
+  if(n % 2 !== 0){
+    odds.push(n)
+  }
+
+}
+
+
+
+
 function NumberForm() {
   const $form = document.createElement("form");
+
   $form.innerHTML = `
     <label>
-        Add numbers to our list and sort them out!
+      Add numbers to our list and sort them out!
       <input name="number" type="number" />
     </label>
-    <button>Add Number</button>
-    <button>Sort 1</button>
-    <button>Sort All</button>
+
+    <button type="submit">Add Number</button>
+    <button type="button" id="sort1">Sort 1</button>
+    <button type="button" id="sortAll">Sort All</button>
+
     <h2>Bank</h2>
-    <section class='section'></section>
+    <section class="bank"></section>
 
+    <h2>Odds</h2>
+    <section class="odds"></section>
 
+    <h2>Evens</h2>
+    <section class="evens"></section>
   `;
-    const $section = $form.querySelector(".section")
 
+  const $bank = $form.querySelector(".bank");
+  const $odds = $form.querySelector(".odds");
+  const $evens = $form.querySelector(".evens");
 
+  function renderLists() {
+    $bank.innerHTML = numberBank.map(n => `<div>${n}</div>`).join("");
+    $odds.innerHTML = odds.map(n => `<div>${n}</div>`).join("");
+    $evens.innerHTML = evens.map(n => `<div>${n}</div>`).join("");
+  }
 
-  $form.addEventListener("submit",function (event){
-    event.preventDefault()
-    let formData = new FormData($form)
-    let n = Number(formData.get("number"))
-    addToBank(n)
-    $section.replaceChildren(...numberBank );
-    
+  // Add Number
+  $form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    let n = Number($form.number.value);
+    addToBank(n);
+    renderLists();
+    $form.reset();
+  });
 
-})
+  // Sort 1
+  $form.querySelector("#sort1").addEventListener("click", function () {
+    sortOne();
+    renderLists();
+  });
+
+  // Sort All
+  $form.querySelector("#sortAll").addEventListener("click", function () {
+    while (numberBank.length) sortOne();
+    renderLists();
+  });
+
   return $form;
 }
 
-/////////////////////////////////////Good above this line
 
-
-function Sort1(){
-    const $sort1 = document.createElement('sort1')
-    $sort1.innerHTML = `
-        <h2>Odds</h2>
-        <section class='section'></section>
-    `
-
-    return $sort1
-
-    //add event listener to sort based on button press in other function
-
-}
 
 
 
@@ -61,20 +91,9 @@ function Sort1(){
 
 
 function render(){
-    const $app = document.querySelector("#app");
-    $app.innerHTML = `
-    <main>
-
-    <h1>Odds and Events</h1>
-    <NumberForm></NumberForm>
-    <Sort1></Sort1>
-
-
-    </main>
-  `;
-
-    $app.querySelector("NumberForm").replaceWith(NumberForm());
-    $app.querySelector("Sort1").replaceWith(Sort1());
+   const $app = document.querySelector('#app');
+   $app.innerHTML = "";
+   $app.appendChild(NumberForm());
 
 
 
